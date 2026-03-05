@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <script src="eid-helper.js"></script>
+        <style>
+            #result {
+                box-sizing: border-box;
+                border: solid 1px lightgray;
+                padding: 1em;
+                display: flex;
+            }
+            #result pre {
+                box-sizing: border-box;
+                overflow: scroll;
+                width: auto !important;
+                max-width: calc(100vw - 200px);
+            }
+            #result img {
+                width: 140px;
+                height: 200px;
+            }
+        </style>
+    </head>
+    <body style="font-family: Arial, Helvetica, sans-serif;">
+        <h1>Test</h1>
+        <p><a id="register" href="eid-app:" data-alert>Read e-ID card content</a></p>
+        <div id="result"></div>
+        <script type="text/javascript">
+            document.querySelector('#register').read = function(data) {
+                if ('error' in data) {
+                    document.querySelector('#result').innerText = data.error;
+                    return;
+                }
+                console.log(data);
+                var pre = document.createElement('pre');
+                pre.innerText = JSON.stringify(data, null, '    ');
+                document.querySelector('#result').innerText = '';
+                document.querySelector('#result').appendChild(pre);
+                var img = document.createElement('img');
+                img.src = 'data:image/jpeg;base64,' + data.photo;
+                document.querySelector('#result').appendChild(img);
+            };
+        </script>
+    </body>
+</html>
